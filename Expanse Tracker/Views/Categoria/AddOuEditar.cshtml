@@ -1,0 +1,59 @@
+﻿@model Expanse_Tracker.Models.Categoria
+
+@{
+    // Define o título da página com base no ID da categoria.
+    ViewData["PageTitle"] = Model.CategoriaId == 0 ? "Criar uma nova categoria" : "Editar";
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="widget p-5" style="background-color:#212b36">
+            <form asp-action="AddOuEditar">
+                <!-- Exibe mensagens de validação de modelo. -->
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <!-- Input oculto para armazenar o ID da categoria. -->
+                <input type="hidden" name="CategoriaId" value="@Model.CategoriaId" />
+
+                <div class="mb-3">
+                    <!-- Grupo de botões de rádio para selecionar o tipo (Expense ou Income). -->
+                    <div class='e-btn-group custom-rbt-group'>
+                        <input type="radio" id="radioleft" name="Tipo" value="Expense" checked="@(Model.Tipo=="Expense")" />
+                        <label class="e-btn" for="radioleft">Expense</label>
+                        <input type="radio" id="radiomiddle" name="Tipo" value="Income" checked="@(Model.Tipo=="Income")" />
+                        <label class="e-btn" for="radiomiddle">Income</label>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <!-- Campo de texto para o título da categoria. -->
+                    <ejs-textbox id="titulo" name="Titulo" placeholder="Titulo" ejs-for="Titulo" floatLabelType="Always"></ejs-textbox>
+                    <span asp-validation-for="Titulo" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <!-- Campo de texto para o ícone da categoria. -->
+                    <ejs-textbox id="icone" name="Icone" placeholder="Icone" ejs-for="Icone" floatLabelType="Always"></ejs-textbox>
+                    <span asp-validation-for="Icone" class="text-danger"></span>
+                </div>
+
+                <!-- Botão de envio do formulário. -->
+                <ejs-button id="submit" type="submit" content="Submit" cssClass="e-success"></ejs-button>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-md-5">
+        <!-- Ícone exibido à direita da página. -->
+        <div class="widget h-100 d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-shapes fa-2xl"></i>
+        </div>
+    </div>
+</div>
+
+<!--
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+-->

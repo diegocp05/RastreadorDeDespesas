@@ -1,0 +1,147 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    // Define a variável ViewData["isDashboard"] como verdadeira
+    ViewData["isDashboard"] = true;
+}
+
+@* Sumary Widgets *@
+<div class="row mb-4">
+    <!-- Widget de Receita Total -->
+    <div class="col-md-4">
+        <div class="d-flex flex-row widget summary income">
+            <div class="d-flex flex-column justify-content-center p-5">
+                <i class="fa-solid fa-dollar-sign fa-2xl"></i>
+            </div>
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Receita Total</span>
+                <h1 class="display-6 fw-bold">@ViewBag.TotalIncome</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget de Despesa Total -->
+    <div class="col-md-4">
+        <div class="d-flex flex-row widget summary expense">
+            <div class="d-flex flex-column justify-content-center p-5">
+                <i class="fa-solid fa-dollar-sign fa-2xl"></i>
+            </div>
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Despesa Total</span>
+                <h1 class="display-6 fw-bold">@ViewBag.TotalExpense</h1>
+            </div>
+        </div>
+    </div>
+
+    <!-- Widget de Balanço -->
+    <div class="col-md-4">
+        <div class="d-flex flex-row widget summary balanco">
+            <div class="d-flex flex-column justify-content-center p-5">
+                <i class="fa-solid fa-dollar-sign fa-2xl"></i>
+            </div>
+            <div class="d-flex flex-column m-auto py-3">
+                <span class="lead">Balanço</span>
+                <h1 class="display-6 fw-bold">@ViewBag.Balanco</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+@* Doughnut and Spline Chart *@
+<div class="row mb-4">
+    <!-- Gráfico de Doughnut para Despesa por Categoria -->
+    <div class="col-md-4">
+        <div class="widget chart">
+            <div class="p-4">
+                <h5 class="fw-bold">Despesa por Categoria</h5>
+            </div>
+            <ejs-accumulationchart id="doughnutchart" enableSmartLabels background="#1a222b">
+                <!-- Configurações da Série para o Gráfico de Doughnut -->
+                <e-accumulation-series-collection>
+                    <e-accumulation-series dataSource="@ViewBag.DoughnutChartData"
+                                           xName="categoriaTituloComIcone" yName="quantidade"
+                                           innerRadius="60%" legendShape="Circle">
+                        <e-accumulationseries-datalabel name="quantidadeFormatada" visible></e-accumulationseries-datalabel>
+                    </e-accumulation-series>
+                </e-accumulation-series-collection>
+                <!-- Configurações da Legenda para o Gráfico de Doughnut -->
+                <e-accumulationchart-legendsettings position="Top" toggleVisibility="false">
+                    <e-legendsettings-textstyle color="#fff" size="1rem"></e-legendsettings-textstyle>
+                </e-accumulationchart-legendsettings>
+                <e-accumulationchart-tooltipsettings enable></e-accumulationchart-tooltipsettings>
+            </ejs-accumulationchart>
+        </div>
+    </div>
+
+    <!-- Continue com os outros blocos de código -->
+
+    <!-- Gráfico de Spline para Receita vs Despesa -->
+    <div class="col-md-8">
+        <div class="widget chart">
+            <div class="p-4">
+                <h5 class="fw-bold">Receita vs Despesa</h5>
+            </div>
+            <ejs-chart id="spline-chart" background="#1a222b" palettes=@(new string[] {"#54ffa9", "#ffe91a"})>
+                <!-- Configurações do Eixo X para o Gráfico de Spline -->
+                <e-chart-primaryxaxis valueType="Category">
+                    <e-majorgridlines width="0"></e-majorgridlines>
+                    <e-majorticklines width="0"></e-majorticklines>
+                </e-chart-primaryxaxis>
+                <!-- Configurações do Eixo Y para o Gráfico de Spline -->
+                <e-chart-primaryyaxis>
+                    <e-majorgridlines width="1" color="#3241d" dashArray="3,5"></e-majorgridlines>
+                    <e-majorticklines width="0"></e-majorticklines>
+                    <e-linestyle width="0"></e-linestyle>
+                </e-chart-primaryyaxis>
+                <!-- Configurações da Área do Gráfico de Spline -->
+                <e-chart-chartarea>
+                    <e-chartarea-border width="0"></e-chartarea-border>
+                </e-chart-chartarea>
+                <!-- Configurações das Séries para o Gráfico de Spline -->
+                <e-series-collection>
+                    <e-series dataSource="@ViewBag.SplineChartData" xName="day" width="3"
+                              yName="income" name="Receita" type="@Syncfusion.EJ2.Charts.ChartSeriesType.Spline"></e-series>
+                    <e-series dataSource="@ViewBag.SplineChartData" xName="day" width="3"
+                              yName="expense" name="Despesa" type="@Syncfusion.EJ2.Charts.ChartSeriesType.Spline"></e-series>
+                    <e-series></e-series>
+                </e-series-collection>
+                <!-- Configurações da Legenda para o Gráfico de Spline -->
+                <e-chart-legendsettings position="Top" alignment="Far" toggleVisibility="false">
+                    <e-legendsettings-textstyle color="#fff" size="1rem"></e-legendsettings-textstyle>
+                </e-chart-legendsettings>
+                <!-- Configurações da Dica de Ferramenta para o Gráfico de Spline -->
+                <e-chart-tooltipsettings enable shared></e-chart-tooltipsettings>
+            </ejs-chart>
+        </div>
+    </div>
+</div>
+
+@* Recent Transactions and More *@
+<div class="row">
+    <!-- Lista de Transações Recentes -->
+    <div class="col-md-6">
+        <div class="widget">
+            <div class="p-4">
+                <h5 class="fw-bold">Transações Recentes</h5>
+            </div>
+            <div class="px-4 pb-4">
+                <ejs-grid id="recent-transactions" dataSource="@ViewBag.RecentTransactions" gridLines="None">
+                    <e-grid-columns>
+                        <e-grid-column headerText="Categoria" field="CategoriaTituloComIcone"></e-grid-column>
+                        <e-grid-column headerText="Data" field="Data" width="110px" type="date" format="dd-MMM-yy"></e-grid-column>
+                        <e-grid-column headerText="Quantidade" field="QuantidadeFormatada" textAlign="Right"></e-grid-column>
+                    </e-grid-columns>
+                </ejs-grid>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="widget h-100">
+            <div class="d-flex justify-content-center align-items-center h-100">
+                <span><i class="fa-solid fa-plus fa-2xl"></i> Widget</span>
+            </div>
+        </div>
+    </div>
+</div>

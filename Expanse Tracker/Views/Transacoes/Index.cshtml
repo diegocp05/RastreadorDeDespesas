@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Expanse_Tracker.Models.Transacao>
+
+@{
+    // Define o título da página, o texto do botão de ação e a URL do botão de ação
+    ViewData["PageTitle"] = "Transacoes";
+    ViewData["PageActionText"] = "+ Novas Transacoes";
+    ViewData["PageActionUrl"] = "/Transacoes/AddOuEditar";
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <!-- Grid Syncfusion para exibir transações -->
+        <ejs-grid id="transacoes" dataSource="@Model" gridLines="None"
+                  allowSorting="true" allowPaging="true">
+            <e-grid-pagesettings pageSize="10"></e-grid-pagesettings>
+            <e-grid-columns>
+                <!-- Coluna exibindo a categoria com ícone -->
+                <e-grid-column headerText="Categoria" field="CategoriaTituloComIcone"></e-grid-column>
+                <!-- Coluna exibindo a data com formato específico -->
+                <e-grid-column headerText="Data" field="Data" width="110px"
+                               type="date" format="dd-MMM-yy" textAlign="Left"></e-grid-column>
+                <!-- Coluna exibindo a quantidade com formato específico e alinhamento à direita -->
+                <e-grid-column headerText="Quantidade" field="QuantidadeFormatada" textAlign="Right" width="110px"></e-grid-column>
+                <!-- Coluna de ações com botões de edição e exclusão -->
+                <e-grid-column headerText="Acoes" template="#actionColunaTemplate" width="100px"></e-grid-column>
+            </e-grid-columns>
+        </ejs-grid>
+    </div>
+    <div class="col-md-5">
+        <!-- Widget exibindo um ícone na coluna da direita -->
+        <div class="widget h-100 d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-money-bill-transfer fa-2xl"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Script para a coluna de ações com botões de edição e exclusão -->
+<script id="actionColunaTemplate" type="text/x-template">
+    <div class="d-flex flex-row justify-content-start">
+        <!-- Botão de edição que redireciona para a página de edição da transação -->
+        <a class="btn btn-sm no-a-decoration" href="/Transacoes/AddOuEditar/${TransacaoId}">
+            <i class="fa-solid fa-pen fa-lg"></i>
+        </a>
+        <!-- Formulário para exclusão da transação com confirmação -->
+        <form action="/Transacao/Delete/${TransacaoId}" method="post">
+    @Html.AntiForgeryToken()
+            <!-- Botão de exclusão que solicita confirmação antes de excluir -->
+            <button type="submit" class="btn btn-sm btn-link no-a-decoration"
+                    onclick="return confirm(&quot;Are sure to delete this record?&quot;)">
+                <i class="fa-solid fa-trash-can fa-lg text-danger"></i>
+            </button>
+        </form>
+    </div>
+</script>

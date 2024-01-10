@@ -1,0 +1,101 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    // Lista de objetos para itens do menu
+    List<Object> menuItems = new List<object>();
+
+    // Adiciona um item separador para a seção "Geral"
+    menuItems.Add(new
+    {
+        text = "Geral",
+        separator = true,
+    });
+
+    // Adiciona um item para o Dashboard
+    menuItems.Add(new
+    {
+        text = "Dashboard",
+        url = "/",
+        iconCss = "fa-solid fa-box",
+    });
+
+    // Adiciona um item para Categorias
+    menuItems.Add(new
+    {
+        text = "Categorias",
+        url = "/Categoria",
+        iconCss = "fa-solid fa-folder-closed",
+    });
+
+    // Adiciona um item para Transacoes
+    menuItems.Add(new
+    {
+        text = "Transacoes",
+        iconCss = "fa-solid fa-arrow-right-arrow-left",
+        url = "/Transacoes"
+    });
+
+    // Adiciona um item separador para a seção "Extras"
+    menuItems.Add(new
+    {
+        text = "Extras",
+        separator = true,
+    });
+
+    // Adiciona um item para Relatórios
+    menuItems.Add(new
+    {
+        text = "Relatórios",
+        url = "#",
+        iconCss = "fa-solid fa-chart-simple",
+    });
+
+    // Adiciona um item para Configurações
+    menuItems.Add(new
+    {
+        text = "Configurações",
+        url = "#",
+        iconCss = "fa-solid fa-gear",
+    });
+}
+
+<!-- Barra lateral (Sidebar) usando a biblioteca Syncfusion -->
+<ejs-sidebar id="sidebar" width="290px" enableDock dockSize="100px"
+             target=".dock-target" enableGestures="false">
+    <!-- Template de conteúdo da barra lateral -->
+    <e-content-template>
+        <!-- Área do logotipo e ícone para esconder/mostrar a barra lateral -->
+        <div class="logo-wrapper">
+            <div class="app-logo">
+                <img src="~/logo (1).png" />
+            </div>
+            <div class="w-100"></div>
+            <i id="sidebar-toggler" class="fa-solid"></i>
+        </div>
+
+        <!-- Área do perfil do usuário -->
+        <div class="profile-wrapper">
+            <img class="profile-pic" src="~/profile.jpg" />
+            <div class="titles d-flex flex-column ps-3">
+                <h6 class="mb-0">Carteira App</h6>
+                <span class="text-muted">Fernando Souza</span>
+            </div>
+        </div>
+
+        <!-- Menu lateral -->
+        <ejs-menu id="menu" items="menuItems" orientation="Vertical" hamburgerMode></ejs-menu>
+    </e-content-template>
+</ejs-sidebar>
+
+<!-- Script para controlar o comportamento da barra lateral -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Obtém a instância da barra lateral
+        dockBar = document.getElementById('sidebar').ej2_instances[0];
+        // Adiciona um evento de clique para mostrar/ocultar a barra lateral
+        document.getElementById('sidebar-toggler').onclick = function () {
+            dockBar.toggle();
+        };
+    });
+</script>

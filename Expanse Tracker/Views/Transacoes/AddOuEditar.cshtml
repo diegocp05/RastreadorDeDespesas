@@ -1,0 +1,63 @@
+﻿@model Expanse_Tracker.Models.Transacao
+
+@{
+    // Define o título da página com base no ID da transação
+    ViewData["PageTitle"] = Model.TransacaoId == 0 ? "Criar uma nova transação" : "Editar transação";
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <div class="widget p-5" style="background-color:#212b36">
+            <form asp-action="AddOuEditar">
+                <!-- Exibe mensagens de validação do modelo -->
+                <div asp-validation-summary="ModelOnly" class="text-danger f-6"></div>
+
+                <!-- Campo oculto para armazenar o ID da transação -->
+                <input type="hidden" name="TransacaoId" value="@Model.TransacaoId" />
+
+                <!-- Campo de seleção de data usando o componente DatePicker -->
+                <div class="mb-3">
+                    <ejs-datepicker id="data" ejs-for="Data"
+                                    placeholder="Data" floatLabelType="Always"
+                                    format="dd-MMM-yy"></ejs-datepicker>
+                </div>
+
+                <!-- Dropdown de seleção de categoria usando o componente DropDownList -->
+                <div class="mb-3">
+                    <ejs-dropdownlist id="ddlCategoria" ejs-for="CategoriaId" dataSource="@ViewBag.Categorias"
+                                      placeholder="Categoria" floatLabelType="Always" allowFiltering="true" ignoreAccent="true"
+                                      filterType="Contains" popupHeight="220px">
+                        <e-dropdownlist-fields value="CategoriaId" text="TituloComIcone"></e-dropdownlist-fields>
+                    </ejs-dropdownlist>
+                    <span asp-validation-for="CategoriaId" class="text-danger fs-6"></span>
+                </div>
+
+                <!-- Campo de entrada numérica usando o componente NumericTextBox -->
+                <div class="mb-3">
+                    <ejs-numerictextbox id="quantidade" ejs-for="Quantidade" placeholder="Quantidade" floatLabelType="Always" min="0" format="c0"></ejs-numerictextbox>
+                    <span asp-validation-for="Quantidade" class="text-danger fs-6"></span>
+                </div>
+
+                <!-- Campo de texto usando o componente TextBox -->
+                <div class="mb-3">
+                    <ejs-textbox id="nota" placeholder="Nota" ejs-for="Nota" floatLabelType="Always" multiline="true"></ejs-textbox>
+                </div>
+
+                <!-- Botão de envio do formulário -->
+                <ejs-button id="submit" type="submit" content="Submit" cssClass="e-success"></ejs-button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Widget de exibição de ícone na coluna da direita -->
+    <div class="col-md-5">
+        <div class="widget h-100 d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-money-bill-transfer fa-2xl"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Seção opcional para scripts, como scripts de validação -->
+@*@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}*@

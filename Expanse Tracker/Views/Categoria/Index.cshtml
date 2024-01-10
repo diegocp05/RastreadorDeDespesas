@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Expanse_Tracker.Models.Categoria>
+
+@{
+    // Define o título da página.
+    ViewData["PageTitle"] = "Categorias";
+
+    // Define o texto e URL para a ação de adicionar ou editar uma categoria.
+    ViewData["PageActionText"] = "+ Nova Categoria";
+    ViewData["PageActionUrl"] = "/Categoria/AddOuEditar";
+}
+
+<div class="row">
+    <div class="col-md-7">
+        <!-- Grid que exibe a lista de categorias -->
+        <ejs-grid id="categorias" dataSource="@Model" gridLines="None"
+                  allowSorting="true" allowPaging="true">
+            <e-grid-pagesettings pageSize="5"></e-grid-pagesettings>
+            <e-grid-columns>
+                <!-- Coluna para exibir o título e o ícone da categoria -->
+                <e-grid-column headertext="Categoria" field="TituloComIcone"></e-grid-column>
+
+                <!-- Coluna para exibir o tipo da categoria com formatação de badge -->
+                <e-grid-column headertext="Tipo" template="#tipoColunaTemplate" width="150px"></e-grid-column>
+
+                <!-- Coluna de ações (editar e excluir) -->
+                <e-grid-column headertext="Ações" template="#actionColunaTemplate" width="100px"></e-grid-column>
+
+            </e-grid-columns>
+        </ejs-grid>
+    </div>
+
+    <!-- Ícone exibido à direita da página -->
+    <div class="col-md-5">
+        <div class="widget h-100 d-flex justify-content-center align-items-center">
+            <i class="fa-solid fa-shapes fa-2xl"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Template para formatar o tipo da categoria como um badge -->
+<script id="tipoColunaTemplate" type="text/x-template">
+    ${if(Tipo=="Income")}
+    <span class="badge bg-success">${Tipo}</span>
+    ${else}
+    <span class="badge bg-danger">${Tipo}</span>
+    ${/if}
+</script>
+
+<!-- Template para as ações (editar e excluir) de cada categoria na lista -->
+<script id="actionColunaTemplate" type="text/x-template">
+    <div class="d-flex flex-row justify-content-start">
+        <!-- Link para editar a categoria -->
+        <a class="btn btn-sm no-a-decoration" href="/Categoria/AddOuEditar/${CategoriaId}">
+            <i class="fa-solid fa-pen fa-lg"></i>
+        </a>
+
+        <!-- Formulário para excluir a categoria -->
+        <form action="/Categoria/Delete/${CategoriaId}" method="post">
+    @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-sm btn-link no-a-decoration"
+                    onclick="return confirm(&quot;Quer mesmo deletar este recurso?&quot;)">
+                <i class="fa-solid fa-trash-can fa-lg text-danger"></i>
+            </button>
+        </form>
+    </div>
+</script>
